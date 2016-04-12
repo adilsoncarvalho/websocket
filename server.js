@@ -1,39 +1,33 @@
 var Http = require('http'),
-    Faye = require('faye');
+    WebSocket = require('faye-websocket');
 
-var bayeux = new Faye.NodeAdapter({
-  mount: '/ws',
-  timeout: 45,
-  ping: 30
-});
-
-// Handle non-Bayeux requests
 var server = Http.createServer(function(request, response) {
   response.writeHead(200, {'Content-Type': 'text/plain'});
-  response.end('Hello, non-Bayeux request');
+  response.end('Hello, non-websocket request');
 });
 
-bayeux.on('handshake', function(client_id) {
-  console.info("[handshake] client_id: " + client_id);
+server.on('upgrade', function(request, socket, body) {
+  if (WebSocket.isWebSocket(request)) {
+    var ws = new WebSocket(request, socket, body);
+
+    ws.on('open', function(event) {
+      console.info("[open] event: " + event);
+    });
+
+    ws.on('close', function(event) {
+      console.info("[close] event: " + event);
+    });
+
+    ws.on('message', function(event) {
+      console.info("[message] event: " + JSON.stringify(event.data));
+    });
+
+    ws.on('error', function(event) {
+      console.info("[error] event: " + error);
+    });
+  }
 });
 
-bayeux.on('disconnect', function(client_id) {
-  console.info("[disconnect] client_id: " + client_id);
-});
-
-bayeux.on('subscribe', function(client_id, channel) {
-  console.info("[subscribe] client_id: " + client_id + ", channel: " + channel);
-});
-
-bayeux.on('unsubscribe', function(client_id, channel) {
-  console.info("[unsubscribe] client_id: " + client_id + ", channel: " + channel);
-});
-
-bayeux.on('publish', function(client_id, channel, data) {
-  console.info("[publish] client_id: " + client_id + ", channel: " + channel + ", data: " + JSON.stringify(data));
-});
-
-bayeux.attach(server);
 server.listen(process.env.SERVER_PORT);
 
 console.info("Websocket Server started at http://0.0.0.0:" + process.env.SERVER_PORT)

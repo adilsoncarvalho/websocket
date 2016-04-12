@@ -4,7 +4,7 @@ RUN mkdir /app
 WORKDIR /app
 ADD . /app
 
-RUN npm install faye
+RUN npm install faye-websocket
 
 ENV SERVER_PORT 8080
 

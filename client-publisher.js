@@ -1,5 +1,5 @@
-var Faye = require('faye');
+var WebSocket = require('faye-websocket');
 
-var client = new Faye.Client('http://192.168.99.100:8080/ws');
+var ws = new WebSocket.Client('ws://192.168.99.100:8080/ws', [])
 
-client.publish('/messages', {text: 'Hello world'});
+ws.send('TESTE');
