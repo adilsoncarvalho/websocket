@@ -4,7 +4,7 @@ RUN mkdir /app
 WORKDIR /app
 ADD . /app
 
-RUN npm install faye-websocket
+RUN npm install faye faye-websocket underscore
 
 ENV SERVER_BINDING 0.0.0.0
 ENV SERVER_ADDR 192.168.99.100

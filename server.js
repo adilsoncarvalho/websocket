@@ -1,34 +1,42 @@
-var Http = require('http'),
-    WebSocket = require('faye-websocket')
-    config = require('./config');
+const Http = require('http'),
+      Faye = require('faye'),
+      config = require('./config');
 
+// http://blog.csdn.net/shiqiang1234/article/details/5402879
+
+var bayeux = new Faye.NodeAdapter({
+  mount: '/ws',
+  timeout: 45,
+  ping: 30
+});
+
+// Handle non-Bayeux requests
 var server = Http.createServer(function(request, response) {
   response.writeHead(200, {'Content-Type': 'text/plain'});
-  response.end('Hello, non-websocket request');
+  response.end('Hello, non-Bayeux request');
 });
 
-server.on('upgrade', function(request, socket, body) {
-  if (WebSocket.isWebSocket(request)) {
-    var ws = new WebSocket(request, socket, body);
-
-    ws.on('open', function(event) {
-      console.info("[open] event: " + event);
-    });
-
-    ws.on('close', function(event) {
-      console.info("[close] event: " + event);
-    });
-
-    ws.on('message', function(event) {
-      console.info("[message] event: " + JSON.stringify(event.data));
-    });
-
-    ws.on('error', function(event) {
-      console.info("[error] event: " + error);
-    });
-  }
+bayeux.on('handshake', function(client_id) {
+  console.info("[handshake] client_id: " + client_id);
 });
 
-server.listen(config.port, config.binding);
+bayeux.on('disconnect', function(client_id) {
+  console.info("[disconnect] client_id: " + client_id);
+});
 
-console.info("Websocket Server started at " + config.serverUri());
+bayeux.on('subscribe', function(client_id, channel) {
+  console.info("[subscribe] client_id: " + client_id + ", channel: " + channel);
+});
+
+bayeux.on('unsubscribe', function(client_id, channel) {
+  console.info("[unsubscribe] client_id: " + client_id + ", channel: " + channel);
+});
+
+bayeux.on('publish', function(client_id, channel, data) {
+  console.info("[publish] client_id: " + client_id + ", channel: " + channel + ", data: " + JSON.stringify(data));
+});
+
+bayeux.attach(server);
+server.listen(config.port);
+
+console.info("Websocket Server started at http://0.0.0.0:" + config.port);

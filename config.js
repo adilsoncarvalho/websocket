@@ -4,7 +4,7 @@ var Config = {
   port: process.env.SERVER_PORT || '8080',
   endpoint: process.env.SERVER_ENDPOINT || 'ws',
   serverUri: function() {
-    return 'ws://' + this.address + ':' + this.port + '/' + this.endpoint;
+    return 'http://' + this.address + ':' + this.port + '/' + this.endpoint;
   }
 };
 
