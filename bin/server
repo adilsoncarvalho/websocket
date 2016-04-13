@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for CONTAINER in $(docker ps --format '{{.ID}},{{.Ports}}' | grep '0.0.0.0:8080->8080/tcp' | cut -d',' -f 1); do
+  echo "* Killed server running at $CONTAINER"
+  docker kill $CONTAINER
+done
+
+echo "* $(date) Loading new server"
+docker run -p '8080:8080' -ti websocket:ongoing
