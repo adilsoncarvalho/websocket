@@ -1,6 +1,7 @@
-var WebSockets = require('faye-websocket');
+var WebSockets = require('faye-websocket'),
+    config = require('./config');
 
-var ws = new WebSockets.Client('ws://192.168.99.100:8080/ws');
+var ws = new WebSocket.Client(config.serverUri(), [])
 
 ws.on('message', function(event) {
   console.info('Got a message: ' + event.message);

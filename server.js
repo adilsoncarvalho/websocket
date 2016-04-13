@@ -1,5 +1,6 @@
 var Http = require('http'),
-    WebSocket = require('faye-websocket');
+    WebSocket = require('faye-websocket')
+    config = require('./config');
 
 var server = Http.createServer(function(request, response) {
   response.writeHead(200, {'Content-Type': 'text/plain'});
@@ -28,6 +29,6 @@ server.on('upgrade', function(request, socket, body) {
   }
 });
 
-server.listen(process.env.SERVER_PORT);
+server.listen(config.port, config.binding);
 
-console.info("Websocket Server started at http://0.0.0.0:" + process.env.SERVER_PORT)
+console.info("Websocket Server started at " + config.serverUri());

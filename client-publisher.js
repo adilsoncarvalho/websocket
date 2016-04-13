@@ -1,5 +1,6 @@
-var WebSocket = require('faye-websocket');
+var WebSocket = require('faye-websocket'),
+    config = require('./config');
 
-var ws = new WebSocket.Client('ws://192.168.99.100:8080/ws', [])
+var ws = new WebSocket.Client(config.serverUri(), [])
 
 ws.send('TESTE');
