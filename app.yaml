@@ -19,7 +19,7 @@ vm: true
 env_variables:
   SERVER_BINDING: 0.0.0.0
   SERVER_ADDR: 127.0.0.1
-  SERVER_PORT: 80
+  SERVER_PORT: 8080
   SERVER_ENDPOINT: ws
 
 # Temporary setting to keep gcloud from uploading node_modules
