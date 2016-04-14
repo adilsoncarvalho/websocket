@@ -12,7 +12,9 @@ var Faye = require('faye');
 var client = new Faye.Client('http://192.168.64.4:8080/ws');
 
 client.subscribe('/messages', function(message) {
-  console.info('Got a message: ' + message.body);
+  console.info('Got a message: ' + JSON.stringify(message));
 });
 
-cliente.publish('/messages', { body: 'teretete' });
+client.subscribe('/messages/blibli', function(message) {
+  console.info('Got a message: ' + JSON.stringify(message));
+});
