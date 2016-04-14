@@ -31,6 +31,10 @@ function okRequest(res, body){
   console.info(str);
 }
 
+function log(type, payload){
+  console.log({ type: type, sent_at: new Date(), payload: payload });
+}
+
 function syncMessage(req, res){
   payload = req.body;
   errors = [];
@@ -42,7 +46,7 @@ function syncMessage(req, res){
   channel = ('/' + payload.channel).replace(/\/{2}/g, '/');
 
   ws.publish('/messages' + channel, { message: payload.message });
-  okRequest(res, { timestamp: new Date(), body: playload.message });
+  okRequest(res, { type: 'request', timestamp: new Date(), body: payload });
 }
 
 // Routes
@@ -51,7 +55,7 @@ routes.get('/', function(req, res){
   okRequest(res, {});
 });
 
-routes.post('/sync_message', function(req, res){
+routes.post('/messages', function(req, res){
   syncMessage(req, res);
 });
 
@@ -59,23 +63,23 @@ routes.post('/sync_message', function(req, res){
 var server = Http.createServer(routes);
 
 bayeux.on('handshake', function(client_id) {
-  console.info("[handshake] client_id: " + client_id);
+  log('handshake', { client_id: client_id });
 });
 
 bayeux.on('disconnect', function(client_id) {
-  console.info("[disconnect] client_id: " + client_id);
+  log('disconnect', { client_id: client_id });
 });
 
 bayeux.on('subscribe', function(client_id, channel) {
-  console.info("[subscribe] client_id: " + client_id + ", channel: " + channel);
+  log('handshake', { client_id: client_id, channel: channel });
 });
 
 bayeux.on('unsubscribe', function(client_id, channel) {
-  console.info("[unsubscribe] client_id: " + client_id + ", channel: " + channel);
+  log('unsubscribe', { client_id: client_id, channel: channel })
 });
 
-bayeux.on('publish', function(client_id, channel, data) {
-  console.info("[publish] client_id: " + client_id + ", channel: " + channel + ", data: " + JSON.stringify(data));
+bayeux.on('publish', function(client_id, channel, payload) {
+  log('publish', { client_id: client_id, channel: channel, payload: payload });
 });
 
 bayeux.attach(server);
@@ -84,4 +88,4 @@ server.listen(config.port);
 var ws = new Faye.Client(config.serverUri(), [])
 
 
-console.info("Websocket Server started at http://0.0.0.0:" + config.port);
+log("info", { text: "Websocket Server started at http://0.0.0.0:" + config.port });

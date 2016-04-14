@@ -6,4 +6,4 @@ for CONTAINER in $(docker ps --format '{{.ID}},{{.Ports}}' | grep '0.0.0.0:8080-
 done
 
 echo "* $(date) Loading new server"
-docker run -p '8080:8080' -ti websocket:ongoing
+docker run --rm -p '8080:8080' -ti websocket:ongoing
