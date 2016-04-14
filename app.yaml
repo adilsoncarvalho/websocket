@@ -28,3 +28,6 @@ env_variables:
 
 vm_health_check:
   enable_health_check: False
+
+manual_scaling:
+  instances: 1
