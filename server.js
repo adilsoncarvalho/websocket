@@ -18,21 +18,21 @@ routes = new Router();
 // Request dealers :)
 
 function badRequest(res, error){
-  str = JSON.stringify({ error: error });
+  str = JSON.stringify({ error: error }, null, 0);
   res.writeHead(400, { 'Content-Type': 'application/json' });
   res.end(str);
-  console.error(str);
+  console.log(str);
 }
 
 function okRequest(res, body){
-  str = JSON.stringify(body);
+  str = JSON.stringify(body, null, 0);
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(str);
-  console.info(str);
+  console.log(str);
 }
 
 function log(type, payload){
-  console.log({ type: type, sent_at: new Date(), payload: payload });
+  console.log(JSON.stringify({ type: type, sent_at: new Date(), payload: payload }, null, 0));
 }
 
 function syncMessage(req, res){
@@ -41,7 +41,10 @@ function syncMessage(req, res){
 
   if(!payload.channel) errors.push('missing channel attribute');
   if(!payload.message) errors.push('missing message attribute');
-  if(errors.length > 0) return badRequest(res, errors);
+  if(errors.length > 0) {
+    errors.push({ payload: payload });
+    return badRequest(res, errors);
+  }
 
   channel = ('/' + payload.channel).replace(/\/{2}/g, '/');
 

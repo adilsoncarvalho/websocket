@@ -9,11 +9,11 @@ ws.on('message', function(event) {
 */
 
 var Faye = require('faye');
-var client = new Faye.Client('http://192.168.64.4:8080/ws');
+var client = new Faye.Client('https://sync-bda.appspot.com/ws');
 
-client.subscribe('/messages', function(message) {
-  console.info('Got a message: ' + JSON.stringify(message));
-});
+// client.subscribe('/messages', function(message) {
+//   console.info('Got a message: ' + JSON.stringify(message));
+// });
 
 client.subscribe('/messages/blibli', function(message) {
   console.info('Got a message: ' + JSON.stringify(message));

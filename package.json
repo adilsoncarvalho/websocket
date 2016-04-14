@@ -1,0 +1,29 @@
+{
+  "name": "sync_web_socket_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "faye": "^1.1.2",
+    "faye-websocket": "^0.11.0",
+    "node-simple-router": "^0.10.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adilsoncarvalho/websocket-server.git"
+  },
+  "engines": {
+    "node": "~0.12.13"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adilsoncarvalho/websocket-server/issues"
+  },
+  "homepage": "https://github.com/adilsoncarvalho/websocket-server#readme"
+}
