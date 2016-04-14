@@ -25,3 +25,6 @@ env_variables:
 # Temporary setting to keep gcloud from uploading node_modules
 #skip_files:
 #  - ^(.*/)?.*/node_modules/.*$
+
+vm_health_check:
+  enable_health_check: False
