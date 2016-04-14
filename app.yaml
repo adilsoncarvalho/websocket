@@ -16,6 +16,12 @@ runtime: custom
 vm: true
 # [END runtime]
 
+env_variables:
+  SERVER_BINDING: 0.0.0.0
+  SERVER_ADDR: 127.0.0.1
+  SERVER_PORT: 80
+  SERVER_ENDPOINT: ws
+
 # Temporary setting to keep gcloud from uploading node_modules
 #skip_files:
 #  - ^(.*/)?.*/node_modules/.*$
