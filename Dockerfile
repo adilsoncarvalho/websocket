@@ -4,10 +4,10 @@ RUN mkdir /app
 WORKDIR /app
 ADD . /app
 
-RUN npm install faye faye-websocket underscore
+RUN npm install node-simple-router faye faye-websocket underscore
 
 ENV SERVER_BINDING 0.0.0.0
-ENV SERVER_ADDR 192.168.99.100
+ENV SERVER_ADDR 192.168.64.4
 ENV SERVER_PORT 8080
 ENV SERVER_ENDPOINT ws
 
