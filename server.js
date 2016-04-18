@@ -35,7 +35,7 @@ function log(type, payload){
   console.log(JSON.stringify({ type: type, sent_at: new Date(), payload: payload }, null, 0));
 }
 
-function syncMessage(req, res){
+function processMessage(req, res){
   payload = req.body;
   errors = [];
 
@@ -59,7 +59,7 @@ routes.get('/', function(req, res){
 });
 
 routes.post('/messages', function(req, res){
-  syncMessage(req, res);
+  processMessage(req, res);
 });
 
 // Handle non-Bayeux requests

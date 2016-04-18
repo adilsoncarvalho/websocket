@@ -14,7 +14,7 @@
 # [START runtime]
 runtime: custom
 vm: true
-module: websocket
+module: 'websocket'
 # [END runtime]
 
 env_variables:
