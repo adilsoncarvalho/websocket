@@ -58,6 +58,10 @@ routes.get('/', function(req, res){
   okRequest(res, {});
 });
 
+routes.get('/_ah/health', function(req, res){
+  okRequest(res, { status: 'ok' });
+});
+
 routes.post('/messages', function(req, res){
   processMessage(req, res);
 });
